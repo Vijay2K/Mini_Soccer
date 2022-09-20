@@ -10,13 +10,14 @@ public class GameCountdown : MonoBehaviour
 
     [SerializeField] private int maxTime;
 
-    private void OnEnable() 
+    private void Start() 
     {
-        GameManager.Instance.OnGameStarted += StartCountDown;
+        FindObjectOfType<GameStartCountdown>().OnCountDownStopped += StartCountDown;
     }
 
     private void StartCountDown()
     {
+        AudioManager.Instance.Play(SoundType.shortWhistle);
         StartCoroutine(CountdownDelay());
     }
 

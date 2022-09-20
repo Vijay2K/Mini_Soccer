@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private PlayerDataSO playerData;
     [SerializeField] private Animator animator;
-    
+
     private Vector2 moveDirection;
     private Vector3 screenBound;
     private Vector3 initialPosition;
@@ -95,18 +95,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Ball"))
         {
+            AudioManager.Instance.Play(SoundType.Kick);
             other.gameObject.GetComponent<Ball>().AddForce(moveDirection);
         }    
     }
 
     private void ResetPosition(PlayerType playerType)
-    {
+    {        
         StartCoroutine(ResetPositionDelay());
     }
 
     private IEnumerator ResetPositionDelay()
-    {
+    {        
         yield return new WaitForSeconds(2f);
+        AudioManager.Instance.Play(SoundType.LongWhistle);
         transform.position = initialPosition;
         transform.rotation = initialRotation;
     }

@@ -13,6 +13,7 @@ public class GoalPost : MonoBehaviour
     {
         if(other.CompareTag("Ball"))
         {
+            AudioManager.Instance.Play(SoundType.CrowdSound);
             OnGoal?.Invoke(whosGoalPost);
         }    
     }
