@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class InputData
+{
+    public PlayerType playerType;
+    public DynamicJoystick joystick;
+}
+
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance { get; private set; }
@@ -32,7 +39,9 @@ public class InputManager : MonoBehaviour
     {
         foreach(InputData inputData in inputDataArray)
         {
-            if(inputData.playerType != playerType) continue;
+            if(inputData.playerType != playerType) 
+                continue;
+            
             return inputData.joystick;
         }
 

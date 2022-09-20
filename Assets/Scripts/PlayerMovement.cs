@@ -9,11 +9,18 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 moveDirection;
     private Vector3 screenBound;
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
 
     private void Start() 
     {
+        GoalPost.OnGoal += ResetPosition;
+
         screenBound = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 
                 Camera.main.transform.position.z));
+
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
     }
 
     private void Update() 
@@ -75,5 +82,17 @@ public class PlayerMovement : MonoBehaviour
         {
             other.gameObject.GetComponent<Ball>().AddForce(moveDirection);
         }    
+    }
+
+    private void ResetPosition(PlayerType playerType)
+    {
+        StartCoroutine(ResetPositionDelay());
+    }
+
+    private IEnumerator ResetPositionDelay()
+    {
+        yield return new WaitForSeconds(2f);
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
     }
 }
