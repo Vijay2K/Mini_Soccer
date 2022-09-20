@@ -15,7 +15,7 @@ MonoBehaviour:
   playerType: 0
   moverSpeed: 6
   isGoalKeeper: 1
-  goalKeeperBoundMinX: -8.56
-  goalKeeperBoundMaxX: -5.89
-  goalKeeperBoundMinY: -2.88
-  goalKeeperBoundMaxY: 2.88
+  goalKeeperBoundMinX: -9.59
+  goalKeeperBoundMaxX: -7.86
+  goalKeeperBoundMinY: -2.25
+  goalKeeperBoundMaxY: 2.25

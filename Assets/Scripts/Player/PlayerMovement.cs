@@ -6,7 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private PlayerDataSO playerData;
-
+    [SerializeField] private Animator animator;
+    
     private Vector2 moveDirection;
     private Vector3 screenBound;
     private Vector3 initialPosition;
@@ -23,18 +24,20 @@ public class PlayerMovement : MonoBehaviour
         initialRotation = transform.rotation;
     }
 
-    private void Update() 
+    private void Update()
     {
         moveDirection = CalculatedMovement();
         moveDirection.Normalize();
 
         transform.position = CalculatedScreenBound(moveDirection * playerData.GetMoverSpeed() * Time.deltaTime);
 
-        if(moveDirection != Vector2.zero)
+        if (moveDirection != Vector2.zero)
         {
             Quaternion toRotate = Quaternion.LookRotation(Vector3.forward, moveDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotate, 1000 * Time.deltaTime);
         }
+
+        TriggerAnimation();
     }
 
     private Vector2 CalculatedMovement()
@@ -47,8 +50,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 CalculatedScreenBound(Vector3 movement)
     {
-        float offsetX = spriteRenderer.bounds.size.x / 2;
-        float offsetY = spriteRenderer.bounds.size.y / 2;
+        float offsetX = (spriteRenderer.bounds.size.x / 2) - 0.5f;
+        float offsetY = (spriteRenderer.bounds.size.y / 2) - 0.5f;
 
         if(playerData.IsGoalKeeper())
         {
@@ -75,6 +78,18 @@ public class PlayerMovement : MonoBehaviour
 
         return new Vector2(x, y);
     }
+
+    private void TriggerAnimation()
+    {
+        if (moveDirection == Vector2.zero)
+        {
+            animator.SetBool("IsRunning", false);
+        }
+        else
+        {
+            animator.SetBool("IsRunning", true);
+        }
+    }    
 
     private void OnCollisionEnter2D(Collision2D other) 
     {

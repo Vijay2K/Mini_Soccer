@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static ScoreManager Instance { get; private set; }
     public event Action<int, int> OnScoreChanged;
 
     private int player_1_score;
     private int player_2_score;
+
+    private void Awake() 
+    {
+        Instance = this;
+    }
 
     private void Start() 
     {

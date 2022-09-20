@@ -32,7 +32,7 @@ public class Ball : MonoBehaviour
     {
         timer = 5;
         rb.drag = 0;
-        rb.AddForce(moverDir * 20f, ForceMode2D.Impulse);
+        rb.AddForce(moverDir * 15f, ForceMode2D.Impulse);
     }
 
     private void ResetPosition(PlayerType playerType)
