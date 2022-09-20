@@ -1,4 +1,4 @@
 public enum PlayerType
 {
-    Player_1, Player_2
+    Player_1, Player_2, NONE
 }

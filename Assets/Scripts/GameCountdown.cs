@@ -33,6 +33,7 @@ public class GameCountdown : MonoBehaviour
 
         if(maxTime <= 0)
         {
+            AudioManager.Instance.Play(SoundType.LongWhistle);
             OnCountdownStopped?.Invoke();
         }
     }

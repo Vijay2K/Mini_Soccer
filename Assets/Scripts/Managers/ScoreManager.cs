@@ -33,7 +33,16 @@ public class ScoreManager : MonoBehaviour
                 break;
         }
 
-        Debug.Log("Player - 1 : " + player_1_score + " and " + "Player - 2 : " + player_2_score);
         OnScoreChanged?.Invoke(player_1_score, player_2_score);
+    }
+
+    public int GetPlayer_1_Score()
+    {
+        return player_1_score;
+    }
+
+    public int GetPlayer_2_Score()
+    {
+        return player_2_score;
     }
 }
