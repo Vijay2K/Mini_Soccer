@@ -25,6 +25,13 @@ public class InputManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start() 
+    {
+        GoalPost.OnGoal += DisableInputForTime;
+        GameManager.Instance.OnGameOver += DisableInputForTime;
+        FindObjectOfType<GameCountdown>().OnCountdownStopped += DisableInput;
+    }
+
     public float GetJoystickHorizontal(PlayerType playerType)
     {
         return GetJoystickInput(playerType).Horizontal;
@@ -47,4 +54,30 @@ public class InputManager : MonoBehaviour
 
         return null;
     }
+
+    private void DisableInputForTime(PlayerType playerType)
+    {
+        DisableInput();
+    }
+
+    private void DisableInput()
+    {
+        StartCoroutine(EnableAndDisableInputDelay());
+    }
+
+    private IEnumerator EnableAndDisableInputDelay()
+    {
+        EnableAndDisableInputs(false);
+        yield return new WaitForSeconds(3f);
+        EnableAndDisableInputs(true);
+    }
+
+    private void EnableAndDisableInputs(bool isEnable)
+    {
+        foreach(InputData inputData in inputDataArray)
+        {
+            inputData.joystick.Reset();
+            inputData.joystick.gameObject.SetActive(isEnable);
+        }
+    }     
 }

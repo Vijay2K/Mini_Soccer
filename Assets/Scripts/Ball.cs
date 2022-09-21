@@ -13,6 +13,9 @@ public class Ball : MonoBehaviour
     {
         GoalPost.OnGoal += ResetPosition;
 
+        FindObjectOfType<GoldenGoal>().OnGoldenGoalStart += Reset;
+
+
         rb = GetComponent<Rigidbody2D>();
 
         initialPosition = transform.position;
@@ -37,6 +40,16 @@ public class Ball : MonoBehaviour
 
     private void ResetPosition(PlayerType playerType)
     {
+        if (GameManager.Instance.IsGameover())
+        {
+            return;
+        }
+
+        Reset();
+    }
+
+    private void Reset()
+    {
         StartCoroutine(ResetPositionDelay());
     }
 
@@ -44,8 +57,11 @@ public class Ball : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        rb.velocity = Vector2.zero;
-        transform.position = initialPosition;
-        transform.rotation = initialRotation;
+        if (!GameManager.Instance.IsGameover())
+        {
+            rb.velocity = Vector2.zero;
+            transform.position = initialPosition;
+            transform.rotation = initialRotation;
+        }
     }
 }

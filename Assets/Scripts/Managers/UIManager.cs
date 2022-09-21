@@ -19,10 +19,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Animator gameStartCounterAnimator;
 
     private GameStartCountdown gameStartCountdown;
+    private GameCountdown gameCountdown;
 
     private void Awake() 
     {
         gameStartCountdown = FindObjectOfType<GameStartCountdown>();
+        gameCountdown = FindObjectOfType<GameCountdown>();
+
         EnableGameStartCounterPanel();
     }
 
@@ -33,15 +36,30 @@ public class UIManager : MonoBehaviour
 
     private void Start() 
     {
-        FindObjectOfType<GameCountdown>().OnCountdownChanged += UpdateCountDownTextUI;
+        gameCountdown.OnCountdownChanged += UpdateCountDownTextUI;
         gameStartCountdown.OnCountDownStopped += FadeOutGameStartCounterPanel;
 
         ScoreManager.Instance.OnScoreChanged += UpdatePlayerScoreTextUI;
+
+        FindObjectOfType<GoldenGoal>().OnGoldenGoalStart += UpdateCountDownTextOnGoldenGoalStarted;
+
+        UpdateCountDownTextUI(gameCountdown.GetMaxTimer());
     }
 
     private void UpdateCountDownTextUI(int countDown)
     {
         countdownText.text = countDown.ToString();
+    }
+
+    private void UpdateCountDownTextOnGoldenGoalStarted()
+    {
+        StartCoroutine(UpdateGoldenGoalTextDelay());
+    }
+
+    private IEnumerator UpdateGoldenGoalTextDelay()
+    {
+        yield return new WaitForSeconds(2f);
+        countdownText.text = "Golden\nGoal";
     }
 
     private void UpdateGameStartCounterUI(int count)

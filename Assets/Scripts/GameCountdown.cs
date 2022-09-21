@@ -37,4 +37,9 @@ public class GameCountdown : MonoBehaviour
             OnCountdownStopped?.Invoke();
         }
     }
+
+    public int GetMaxTimer()
+    {
+        return maxTime;
+    }
 }

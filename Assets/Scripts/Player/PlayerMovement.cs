@@ -15,7 +15,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start() 
     {
+        GoalPost.OnGoal += StopMoving;
         GoalPost.OnGoal += ResetPosition;
+
+        FindObjectOfType<GoldenGoal>().OnGoldenGoalStart += Reset;
 
         screenBound = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 
                 Camera.main.transform.position.z));
@@ -46,6 +49,11 @@ public class PlayerMovement : MonoBehaviour
         float valueY = InputManager.Instance.GetJoystickInput(playerData.GetPlayerType()).Vertical;
 
         return new Vector2(valueX, valueY);
+    }
+
+    private void StopMoving(PlayerType playerType)
+    {
+        moveDirection = Vector2.zero;
     }
 
     private Vector2 CalculatedScreenBound(Vector3 movement)
@@ -101,15 +109,24 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void ResetPosition(PlayerType playerType)
-    {        
+    {
+        Reset();
+    }
+
+    private void Reset()
+    {
         StartCoroutine(ResetPositionDelay());
     }
 
     private IEnumerator ResetPositionDelay()
     {        
         yield return new WaitForSeconds(2f);
-        AudioManager.Instance.Play(SoundType.LongWhistle);
-        transform.position = initialPosition;
-        transform.rotation = initialRotation;
+        if (!GameManager.Instance.IsGameover())
+        {
+            AudioManager.Instance.Play(SoundType.LongWhistle);
+            transform.position = initialPosition;
+            transform.rotation = initialRotation;
+        }
+
     }
 }

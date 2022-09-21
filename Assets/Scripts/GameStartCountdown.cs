@@ -11,7 +11,17 @@ public class GameStartCountdown : MonoBehaviour
     private int count = 3;
     private System.Action resetAnim;
 
-    private IEnumerator Start() 
+    private void Start() 
+    {
+        FindObjectOfType<MainMenu>().OnGameStart += StartCountDown;
+    }
+
+    private void StartCountDown()
+    {
+        StartCoroutine(StartCountDownDelay());
+    }
+
+    private IEnumerator StartCountDownDelay() 
     {
         yield return new WaitForSeconds(0.5f);
         while(count > 0)
