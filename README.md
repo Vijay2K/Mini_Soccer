@@ -1,5 +1,5 @@
 # Mini_Soccer
-- This is 2d "2 players" game. 2 players play at the same time at the same device.
+- This is 2d "2 players" game. 2 players can play at the same time on a same device.
 - The player who score more goals will be the winner of this game.
 
 ## Gameplay Video
